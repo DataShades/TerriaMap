@@ -8,6 +8,7 @@ import MenuItem from "terriajs/lib/ReactViews/StandardUserInterface/customizable
 import PropTypes from "prop-types";
 import React from "react";
 import RelatedMaps from "./RelatedMaps";
+import InteractiveCatalog from "../Models/InteractiveCatalog";
 import SplitPoint from "terriajs/lib/ReactViews/SplitPoint";
 import StandardUserInterface from "terriajs/lib/ReactViews/StandardUserInterface/StandardUserInterface.jsx";
 import version from "../../version";
@@ -30,6 +31,10 @@ import "./global.scss";
 // }
 
 export default function UserInterface(props) {
+  React.useEffect(() => {
+    window.catalog = new InteractiveCatalog(props.terria);
+  }, []);
+
   return (
     <StandardUserInterface {...props} version={version}>
       <MenuLeft>
@@ -37,7 +42,11 @@ export default function UserInterface(props) {
         <RelatedMaps viewState={props.viewState} />
       </MenuLeft>
       <Nav>
-        <MeasureTool terria={props.viewState.terria} key="measure-tool" />
+        <MeasureTool
+          terria={props.viewState.terria}
+          key="measure-tool"
+          elementConfig={props.terria.elements["measure-tool"]}
+        />
       </Nav>
       <ExperimentalMenu>
         {/* <If condition={isBrowserSupportedAV()}>
